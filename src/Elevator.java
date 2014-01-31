@@ -2,11 +2,16 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+
+import java.io.File;
 
 public class Elevator implements ActionListener{
 
@@ -19,15 +24,17 @@ public class Elevator implements ActionListener{
 	private static JTextArea narratorText = new JTextArea();
 	private static JButton btnGo = new JButton("Go!");
 
-	public static void main(String[] args) {
-		Elevator.launchElevator();
+	public static void main(String[] args) throws InterruptedException {
+		initializeElevator();
+		startElevator();	
 	}
 	
 	
 	/**
 	 * Launch the application.
+	 * @throws InterruptedException 
 	 */
-	public static void launchElevator() {
+	public static void initializeElevator() throws InterruptedException {
 		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -39,6 +46,18 @@ public class Elevator implements ActionListener{
 				}
 			}
 		});
+		
+		final CountDownLatch latch = new CountDownLatch(1);
+		SwingUtilities.invokeLater(new Runnable() {
+		    public void run() {
+		        new JFXPanel(); // initializes JavaFX environment
+		        latch.countDown();
+		    }
+		});
+		latch.await();
+	}
+	
+	public static void startElevator() {
 		
 		narratorSay(false, "Stanely awoke inside an elevator, 15 buttons, 1 for each floor glowed, before him. A voice prompted him to"+
 					" select a floor.\n\n");	
@@ -70,14 +89,15 @@ public class Elevator implements ActionListener{
 	 * Easter Egg  :D
 	 */
 	private static void theTwilightZone() {
-		narratorSay(true, "Out of nowhere, a storm rolled in and a beam of lightning struck the top of the hotel. Then, and ominous voice "+
-							"began to speak....\n");
-		narratorSay(false, "There is a fifth dimension beyond that which is known to man. It is a dimension as vast as space and as "+
+		soundPlay("src/TZONE.WAV");
+		narratorSay(true,   "     Out of nowhere, a storm rolled in and a beam of lightning struck the top of the hotel. Then, and ominous voice "+
+							"began to speak....\n\n");
+		narratorSay(false,  "     There is a fifth dimension beyond that which is known to man. It is a dimension as vast as space and as "+
 							"timeless as infinity. It is the middle ground between light and shadow, between science and superstition, "+
 							"and it lies between the pit of man's fears and the summit of his knowledge. This is the dimension of "+
 							"imagination. It is an area which we call the Twilight Zone.");
 		try {
-		    TimeUnit.SECONDS.sleep(5);
+		    TimeUnit.SECONDS.sleep(25);
 		} catch(InterruptedException ex) {
 		    Thread.currentThread().interrupt();
 		}
@@ -117,15 +137,15 @@ public class Elevator implements ActionListener{
 			catch (NumberFormatException ef) {
 				narratorSay(true, "Floor number invalid. Please try Again.");
 			}
-			
-			JOptionPane.showMessageDialog(null, ("Floor "+floorSel+" Selected"), "Floor Selected", JOptionPane.ERROR_MESSAGE);
 
 		}
 	}
 	
-	public static void soundPlay(String audioFile) {
-		Media sound = new Media(audioFile);
-		MediaPlayer mediaPlayer = new MediaPlayer(sound);
+	public static void soundPlay(String fileSource) {
+		String source = new File(fileSource).toURI().toString();
+		Media media = null;
+		media = new Media(source);
+		MediaPlayer mediaPlayer = new MediaPlayer(media);
 		mediaPlayer.play();
 	}
 	/**
