@@ -1,16 +1,12 @@
 import java.awt.*;
-
 import javax.swing.*;
-
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-
 import java.io.File;
 
 public class Elevator implements ActionListener{
@@ -65,9 +61,12 @@ public class Elevator implements ActionListener{
 		
 		while (true) {
 			if (currentFloor < floorSel) { //If the floor selection is above the current floor, invokes the goUp() method
+				soundPlay(true, "src/DING.WAV");
+				soundPlay(true, "src/ELEVATOR.WAV");
 				goUp();
 			}
 			else if(currentFloor > floorSel) { //If the floor selection is below the current floor, invokes the goDown() method
+				soundPlay(true, "src/DING.WAV");
 				goDown();
 			}
 			else if(currentFloor == 13) {
@@ -89,7 +88,8 @@ public class Elevator implements ActionListener{
 	 * Easter Egg  :D
 	 */
 	private static void theTwilightZone() {
-		soundPlay("src/TZONE.WAV");
+		
+		soundPlay(true, "src/TZONE.WAV");
 		narratorSay(true,   "     Out of nowhere, a storm rolled in and a beam of lightning struck the top of the hotel. Then, and ominous voice "+
 							"began to speak....\n\n");
 		narratorSay(false,  "     There is a fifth dimension beyond that which is known to man. It is a dimension as vast as space and as "+
@@ -141,12 +141,15 @@ public class Elevator implements ActionListener{
 		}
 	}
 	
-	public static void soundPlay(String fileSource) {
+	public static void soundPlay(boolean play, String fileSource) {
 		String source = new File(fileSource).toURI().toString();
 		Media media = null;
 		media = new Media(source);
 		MediaPlayer mediaPlayer = new MediaPlayer(media);
-		mediaPlayer.play();
+		if (play == false)
+			mediaPlayer.stop();
+		else	
+			mediaPlayer.play();
 	}
 	/**
 	 * Create the application.
