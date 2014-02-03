@@ -9,6 +9,15 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.File;
 
+/**
+ * A compilation of three people's lack of personal lives. More info to come when we actually know what we are doing.
+ * Its probably going to have something to do with an Elevator and multiple references to the Stanely Parable.
+ * 
+ * @author Alex
+ * @author Andrew
+ * @version beta0.1
+ *
+ */
 public class Elevator {
 
 	private static Random rand;
@@ -201,6 +210,7 @@ public class Elevator {
 	 * **NOT IMPLEMENTED**
 	 * Randomizes and plays a typing noise. To be used by narratorSay()
 	 */
+	@SuppressWarnings("unused")
 	private static void typingSound() { //Can't properly implement in narratorSay, causes error/crash...
 		String Sound;
 		if (rand.nextInt(2)==0)
@@ -212,7 +222,7 @@ public class Elevator {
 		
 	/**
 	 * Media player implemented using JavaFX libraries, play .WAV and .MP3 without problems
-	 * @param fileName name of media file to play 
+	 * @param fileSource name of media file to play 
 	 */
 	public static void soundPlay(String fileSource) {
 		String source = new File("src/"+fileSource).toURI().toString();
@@ -257,6 +267,7 @@ public class Elevator {
 	 * Makes the elevator go up, sends a second delay between floor change
 	 */
 	private static void goUp() {goUp(1000);}
+	
 	/**
 	 * Makes elevator go up
 	 * @param delay delay between the floor change
@@ -283,7 +294,9 @@ public class Elevator {
 	 * Makes the elevator go down, sets a one second delay between floor change.
 	 * @param showMessage If true, will display the elevator messages
 	 */
+	@SuppressWarnings("unused")
 	private static void goDown(boolean showMessage) {goDown(1000, showMessage);}
+	
 	/**
 	 * Makes elevator go down
 	 * @param delay delay between the floor change
