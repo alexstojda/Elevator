@@ -1,10 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
-<<<<<<< HEAD
-
 import java.util.*;
-=======
->>>>>>> master
 import java.util.concurrent.CountDownLatch;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -82,7 +78,6 @@ public class Elevator {
 		
 		while (true) {
 			if (currentFloor < floorSel) { //If the floor selection is above the current floor, invokes the goUp() method
-<<<<<<< HEAD
 				if (floorSel==69)
 					goUp(100);
 				else
@@ -90,18 +85,12 @@ public class Elevator {
 			}
 			else if(currentFloor > floorSel) { //If the floor selection is below the current floor, invokes the goDown() method
 				if (currentFloor==69)
-					goDown(100);
+					goDown(100, true);
 				else
 					goDown();
-=======
-				soundPlay(true, "src/DING.WAV");
-				soundPlay(true, "src/ELEVATOR.WAV");
+				soundPlay("DING.WAV");
+				soundPlay("ELEVATOR.WAV");
 				goUp();
-			}
-			else if(currentFloor > floorSel) { //If the floor selection is below the current floor, invokes the goDown() method
-				soundPlay(true, "src/DING.WAV");
-				goDown();
->>>>>>> master
 			}
 			else if(currentFloor == 13) {
 				theTwilightZone();
@@ -120,13 +109,8 @@ public class Elevator {
 	 * Easter Egg  :D
 	 */
 	private static void theTwilightZone() {
-<<<<<<< HEAD
 		delay(500);
 		soundPlay("TZONE.WAV");
-=======
-		
-		soundPlay(true, "src/TZONE.WAV");
->>>>>>> master
 		narratorSay(true,   "     Out of nowhere, a storm rolled in and a beam of lightning struck the top of the hotel. Then, and ominous voice "+
 							"began to speak....\n\n");
 		delay(5000);
@@ -135,8 +119,8 @@ public class Elevator {
 							"and it lies between the pit of man's fears and the summit of his knowledge. This is the dimension of "+
 							"imagination. It is an area which we call the Twilight Zone.");
 		delay(4000);
-		floorSel = -1;
-		goDown(10);
+		floorSel = 0;
+		goDown(10, false);
 		death();
 	}
 	
@@ -180,6 +164,7 @@ public class Elevator {
 	 @param text Text to write in the box
 	 */
 	private static void narratorSay(String text) {narratorSay(false, text);}
+	
 	/**
 	 * Writes text into the narratorText box char by char, creating a typing effect
 	 * @param clear boolean to clear textBox
@@ -200,7 +185,7 @@ public class Elevator {
 	}
 
 	/**
-	 * Easier delay method, doesnt need any imports...
+	 * Delays all output.
 	 * @param millis delay in milliseconds
 	 */
 	private static void delay(int millis) {
@@ -211,11 +196,12 @@ public class Elevator {
 		}
 	}
 	
-<<<<<<< HEAD
+
 	/**
+	 * **NOT IMPLEMENTED**
 	 * Randomizes and plays a typing noise. To be used by narratorSay()
 	 */
-	private static void typingSound() { //Cant properly implement in narratorSay, causes error/crash...
+	private static void typingSound() { //Can't properly implement in narratorSay, causes error/crash...
 		String Sound;
 		if (rand.nextInt(2)==0)
 			Sound = "TYPE";
@@ -228,19 +214,12 @@ public class Elevator {
 	 * Media player implemented using JavaFX libraries, play .WAV and .MP3 without problems
 	 * @param fileName name of media file to play 
 	 */
-	private static void soundPlay(String fileName) {
-		String source = new File("src/"+fileName).toURI().toString();
-=======
-	public static void soundPlay(boolean play, String fileSource) {
-		String source = new File(fileSource).toURI().toString();
->>>>>>> master
+	public static void soundPlay(String fileSource) {
+		String source = new File("src/"+fileSource).toURI().toString();
 		Media media = null;
 		media = new Media(source);
-		MediaPlayer mediaPlayer = new MediaPlayer(media);
-		if (play == false)
-			mediaPlayer.stop();
-		else	
-			mediaPlayer.play();
+		MediaPlayer mediaPlayer = new MediaPlayer(media);	
+		mediaPlayer.play();
 	}
 	
 	/**
@@ -295,16 +274,25 @@ public class Elevator {
 	}
 	
 	/**
-	 * Makes the elevator go down, sends a second delay between floor change
+	 * Makes the elevator go down, sets a one second delay between floor change with elevator prompts
+	 * enabled.
 	 */
-	private static void goDown() {goDown(1000);}
+	private static void goDown() {goDown(1000, true);}
+	
+	/**
+	 * Makes the elevator go down, sets a one second delay between floor change.
+	 * @param showMessage If true, will display the elevator messages
+	 */
+	private static void goDown(boolean showMessage) {goDown(1000, showMessage);}
 	/**
 	 * Makes elevator go down
 	 * @param delay delay between the floor change
+	 * @param showMessage If true, will display the elevator messages
 	 */
-	private static void goDown(int delay) {
+	private static void goDown(int delay, boolean showMessage) {
 		if (floorSel!=-1) {
-			narratorSay(true, "The elevator stated the obvious fact that it was going down, and made that annoying 'ding' sound.");
+			if (showMessage == true)
+				narratorSay(true, "The elevator stated the obvious fact that it was going down, and made that annoying 'ding' sound.");
 			soundPlay("DING.WAV");
 			soundPlay("ELEVATOR.WAV");
 		}
@@ -314,7 +302,8 @@ public class Elevator {
 		floorNumber.setText(""+currentFloor);
 		if (floorSel!=-1) {
 			soundPlay("DING.WAV");
-			narratorSay(true, "The doors opened and Stanley was on the "+ currentFloor + end() + "floor.");
+			if (showMessage == true)
+				narratorSay(true, "The doors opened and Stanley was on the "+ currentFloor + end() + "floor.");
 		}
 	}
 	
