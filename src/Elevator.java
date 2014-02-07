@@ -11,7 +11,7 @@ import java.io.File;
 
 /**
  * A compilation of three people's lack of personal lives. More info to come when we actually know what we are doing.
- * Its probably going to have something to do with an Elevator and multiple references to the Stanely Parable.
+ * Its probably going to have something to do with an Elevator and multiple references to the Stanley Parable.
  * 
  * @author Alex
  * @author Andrew
@@ -554,10 +554,5 @@ public class Elevator {
 		b69.setAlignmentX(Component.CENTER_ALIGNMENT);
 		b69.setFont(new Font("Tahoma", Font.BOLD, 20));
 		MainWindow.add(b69);
-		
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 0, 10, 10);
-		MainWindow.add(panel_1);
 	}
 }
