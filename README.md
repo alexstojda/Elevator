@@ -1,6 +1,5 @@
 Elevator
 ========
-A compilation of three people's lack of personal lives.
-More info to come when we actually know what we are doing.
+A small project inspired by an assignment we received in Programming 1. Our knowledge of programming was advanced compared to that of the class, therefore we decided to challenge ourselves and see how far we could take it. 
 
-Its probably gonna have something to do with an Elevator and multiple refferences to the Stanley Parable.
+The project was abandoned due to time contraints caused by other assignments. 
